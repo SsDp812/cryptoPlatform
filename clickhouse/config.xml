@@ -1,0 +1,7 @@
+<yandex>
+    <listen_host>::</listen_host>
+    <http_port>8123</http_port>
+    <tcp_port>9000</tcp_port>
+    <path>/var/lib/clickhouse</path> <!-- Путь для хранения данных -->
+    <!-- Другие настройки -->
+</yandex>

@@ -1,0 +1,56 @@
+version: '3.5'
+services:
+  clickhouse01:
+    image: clickhouse/clickhouse-server:22.5
+    container_name: clickhouse01
+    hostname: clickhouse01
+    networks:
+      clickhouse-network:
+        ipv4_address: 172.23.0.11
+    ports:
+      - "127.0.0.1:8123:8123"
+      - "127.0.0.1:9000:9000"
+    volumes:
+      - ./clickhouse/data/users.xml:/etc/clickhouse-server/users.xml
+
+
+  rabbitmq:
+    image: 'rabbitmq:3.10.7-management'
+    container_name: 'rabbit'
+    environment:
+      - 'RABBITMQ_DEFAULT_USER=admin'
+      - 'RABBITMQ_DEFAULT_PASS=admin'
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  keycloak:
+    depends_on:
+      - postgres
+    image: mihaibob/keycloak:18.0.2-legacy
+    container_name: keycloak
+    ports:
+      - 9990:9990
+      - 8080:8080
+    volumes:
+      - ./keycloak:/opt/jboss/keycloak/imports
+    environment:
+      - 'KEYCLOAK_IMPORT=/opt/jboss/keycloak/imports/realm.json -Dkeycloak.profile.feature.upload_scripts=enabled'
+      - 'KEYCLOAK_USER=admin'
+      - 'KEYCLOAK_PASSWORD=admin'
+      - 'DB_VENDOR=POSTGRES'
+      - 'DB_ADDR=postgres'
+      - 'DB_DATABASE=keycloak'
+      - 'DB_USER=postgres'
+      - 'DB_PASSWORD=rootroot'
+      - 'KEYCLOAK_FEATURES=scripts'
+      - 'KC_HTTP_PORT=8080'
+
+  postgres:
+    image: 'postgres:10'
+    container_name: 'postgres'
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=rootroot'
+    volumes:
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql

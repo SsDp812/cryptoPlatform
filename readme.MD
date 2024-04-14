@@ -1,0 +1,1 @@
+# TRADE APP v.1

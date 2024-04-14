@@ -1,0 +1,65 @@
+{
+    "realm": "ex-service-realm",
+    "enabled": true,
+    "registration": {
+        "enabled": true
+    },    
+    "clients": [
+      {
+        "clientId": "ex-service-client",
+        "enabled": true,
+        "clientAuthenticatorType": "client-secret",
+        "secret": "my-client-secret",
+        "redirectUris": ["http://localhost:8081/*"],
+        "webOrigins": ["http:/localhost:8081"],
+        "defaultRoles": ["user"],
+        "directAccessGrantsEnabled": true,
+        "serviceAccountsEnabled": true,
+        "authorizationServicesEnabled": true,
+        "publicClient": true,
+        "bearerOnly": false,
+        "protocol": "openid-connect"
+      },
+      {
+        "clientId": "my-service-account",
+        "enabled": true,
+        "clientAuthenticatorType": "client-secret",
+        "secret": "my-client-secret",
+        "defaultRoles": ["user"],
+        "serviceAccountsEnabled": true,
+        "authorizationServicesEnabled": true,
+        "bearerOnly": false,
+        "protocol": "openid-connect"
+      }
+    ],
+    "roles": {
+      "realm": [
+        {
+          "name": "user",
+          "description": "Regular user role",
+          "composite": false
+        },
+        {
+          "name": "admin",
+          "description": "Admin user role",
+          "composite": false
+        }
+      ]
+    },
+    "users": [
+      {
+        "username": "user",
+        "enabled": true,
+        "emailVerified": true,
+        "credentials": [
+          {
+            "type": "password",
+            "value": "password",
+            "temporary": false
+          }
+        ],
+        "realmRoles": ["user"]
+      }
+    ]
+  }
+  

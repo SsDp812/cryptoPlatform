@@ -1,9 +1,8 @@
 {
     "realm": "ex-service-realm",
     "enabled": true,
-    "registration": {
-        "enabled": true
-    },    
+    "registrationAllowed": true,
+    "registrationFlow": "registration",
     "clients": [
       {
         "clientId": "ex-service-client",

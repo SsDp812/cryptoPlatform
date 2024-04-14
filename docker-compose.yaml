@@ -4,15 +4,11 @@ services:
     image: clickhouse/clickhouse-server:22.5
     container_name: clickhouse01
     hostname: clickhouse01
-    networks:
-      clickhouse-network:
-        ipv4_address: 172.23.0.11
     ports:
       - "127.0.0.1:8123:8123"
       - "127.0.0.1:9000:9000"
     volumes:
       - ./clickhouse/data/users.xml:/etc/clickhouse-server/users.xml
-
 
   rabbitmq:
     image: 'rabbitmq:3.10.7-management'
